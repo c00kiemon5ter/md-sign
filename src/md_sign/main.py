@@ -1,4 +1,5 @@
 from pathlib import Path
+from sys import stdout
 
 from lxml import etree
 
@@ -18,6 +19,7 @@ def main(
     cert_path: Path,
     key_path: Path,
     mdfile_path: Path,
+    output_path: Path = None,
 ):
     # load creds
     with open(cert_path) as fd:
@@ -76,7 +78,10 @@ def main(
 
     # serialize
     output_data = etree.tostring(root_signed, xml_declaration=True, encoding="utf-8")
-    print(output)
+    if output_path:
+        output_path.write_bytes(output_data)
+    else:
+        stdout.buffer.write(output_data)
 
 
 def cli():
