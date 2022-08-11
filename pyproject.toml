@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "md-sign"
-version = "0.1.0"
+version = "0.1.1"
 description = "Script to sign metadata"
 authors = ["Ivan Kanakarakis <ivan.kanak@gmail.com>"]
 license = "Apache 2"
