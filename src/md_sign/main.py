@@ -75,7 +75,7 @@ def main(
         raise Error(error_context)
 
     # serialize
-    output = etree.tostring(root_signed).decode("utf-8")
+    output_data = etree.tostring(root_signed, xml_declaration=True, encoding="utf-8")
     print(output)
 
 
