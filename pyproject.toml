@@ -14,6 +14,9 @@ typer = "^0.6.1"
 pytest = "^7.1.2"
 ipdb = "^0.13.9"
 
+[tool.poetry.scripts]
+md-sign = "md_sign.main:cli"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
