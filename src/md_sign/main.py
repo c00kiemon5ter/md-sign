@@ -6,6 +6,9 @@ from lxml import etree
 from signxml.exceptions import InvalidSignature
 from signxml import XMLSigner
 from signxml import XMLVerifier
+from signxml.algorithms import CanonicalizationMethod
+from signxml.algorithms import DigestAlgorithm
+from signxml.algorithms import SignatureMethod
 from signxml import methods as sign_methods
 
 import typer
@@ -20,6 +23,9 @@ def main(
     key_path: Path,
     mdfile_path: Path,
     output_path: Path = None,
+    signature_algorithm = SignatureMethod.RSA_SHA256.value,
+    digest_algorithm = DigestAlgorithm.SHA256.value,
+    c14n_algorithm = CanonicalizationMethod.EXCLUSIVE_XML_CANONICALIZATION_1_0.value,
 ):
     # load creds
     with open(cert_path) as fd:
@@ -45,7 +51,12 @@ def main(
     root.insert(0, node_signature_placeholder)
 
     # sign
-    signer = XMLSigner(method=sign_methods.enveloped)
+    signer = XMLSigner(
+        method=sign_methods.enveloped,
+        signature_algorithm=signature_algorithm,
+        digest_algorithm=digest_algorithm,
+        c14n_algorithm=c14n_algorithm,
+    )
     signer.namespaces = root.nsmap
     root_signed = signer.sign(root, key=key, cert=cert, reference_uri=root.attrib.get("ID"))
 
